@@ -1,0 +1,23 @@
+name: deployment workflow
+on: [push, workflow_dispatch]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo code onto remote machine
+        uses: actions/checkout@v4
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Download dependencies
+        run: npm ci
+      - name: Format all files
+        run: npm lint 
+      - name: Run tests
+        run: npm test
+      - name: Build Project
+        run: npm run build
+      - name: deploying code
+        run: echo "Deploying ..."
+  

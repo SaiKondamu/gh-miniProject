@@ -13,7 +13,7 @@ jobs:
       - name: Download dependencies
         run: npm ci
       - name: Format all files
-        run: npm lint 
+        run: npm run lint 
       - name: Run tests
         run: npm test
       - name: Build Project

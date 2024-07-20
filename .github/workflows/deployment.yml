@@ -1,7 +1,7 @@
 name: deployment
 on: [push, workflow_dispatch]
 jobs:
-  deploy:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: checkout repo code onto remote machine
@@ -14,8 +14,32 @@ jobs:
         run: npm ci
       - name: Format all files
         run: npm run lint 
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo code onto remote machine
+        uses: actions/checkout@v4
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Download dependencies
+        run: npm ci
       - name: Run tests
         run: npm run test
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo code onto remote machine
+        uses: actions/checkout@v4
+      - name: Install NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - name: Download dependencies
+        run: npm ci
       - name: Build Project
         run: npm run build
       - name: deploying code

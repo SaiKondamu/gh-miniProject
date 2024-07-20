@@ -1,4 +1,4 @@
-name: deployment workflow
+name: output
 on: issues
 jobs:
   deploy:
